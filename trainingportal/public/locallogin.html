@@ -26,7 +26,9 @@
         newUser.password = registerPassword.value;
         newUser.givenName = givenName.value.trim();
         newUser.familyName = familyName.value.trim();
+        newUser.instructorkey = instructorkey.value.trim();
         newUser.captcha = captcha.value.trim();
+
 
         //verifications
         $scope.isError = false;    
@@ -55,6 +57,11 @@
         if(newUser.familyName === ""){
           $scope.isError = true;    
           $scope.registerErrorMessage += "Family name cannot be empty. ";
+        }
+
+        if(newUser.instructorkey === ""){
+          $scope.isError = true;    
+          $scope.registerErrorMessage += "Instructor key cannot be empty. ";
         }
 
         if(newUser.captcha === ""){
@@ -102,6 +109,7 @@
 <div id="container" class="container">
     
   <form action="/public/locallogin" method="POST">
+
     <div class="form-group">
       <label for="username">User name:</label>
       <input type="username" class="form-control" id="username" name="username">
@@ -123,13 +131,112 @@
     </div>
     
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerModal">Register</button>
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#typeModal">Register</button>
   </form>
 </div>
 
 
-<!-- Register UI -->
-<div id="registerModal" class="modal fade" role="dialog">
+<!-- Type UI -->
+<div id="typeModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">TYPE</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+            <div class="form-group">
+             <!-- <label>
+                <input type="radio" name="role" value="student" [(ngModel)]="selectedRole">
+                Student
+              </label>
+              <label>
+                <input type="radio" name="role" value="instructor" [(ngModel)]="selectedRole">
+                Instructor
+              </label>
+            </div>
+          -->
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#studentregisterModal">Register as Instructor  </button>
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#instructorregisterModal">Register as Student</button>
+            </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- student Register UI -->
+<div id="studentregisterModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Register</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        <div class="modal-body">      
+            <div class="alert alert-success" id="registerSuccessMessage" ng-if="isSuccess">
+                Registration successful.
+            </div>
+            
+            <div class="alert alert-danger" id="registerErrorMessage" ng-if="isError">
+                {{registerErrorMessage}}
+            </div>
+
+            <div class="form-group">
+              <label for="registerUserName">User name:</label>
+              <input type="text" class="form-control" id="registerUserName">
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">Password:</label>
+              <input type="password" class="form-control" id="registerPassword" autocomplete="off" >
+            </div>
+            <div class="form-group">
+                <label for="vfyPassword">Verify password:</label>
+                <input type="password" class="form-control" id="vfyPassword" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="givenName">Given name(s):</label>
+                <input type="text" class="form-control" id="givenName">
+            </div>
+            <div class="form-group">
+                <label for="familyName">Family name:</label>
+                <input type="text" class="form-control" id="familyName">
+            </div>
+
+            <div class="form-group">
+              <label for="instructorkey">Instructor key:</label>
+              <input type="text" class="form-control" id="instructorkey">
+          </div>
+
+            <div class="form-group">
+                <label for="captchaImg">Captcha image:</label>
+                <img src="captcha.png" id="captchaImg"/>
+                <a href="#">
+                    <span class="oi oi-reload" ng-click="refresh('captchaImg')"></span>
+                 </a>
+            </div>
+            
+            <div class="form-group">
+                <label for="captcha">Captcha value:</label>
+                <input type="captcha" class="form-control" id="captcha" name="captcha">
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="register()">Submit</button>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- instructor Register UI -->
+<div id="instructorregisterModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -188,6 +295,8 @@
     </div>
   </div>
 </div>
+
+
 
 </body>
 </html>
